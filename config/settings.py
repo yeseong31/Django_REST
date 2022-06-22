@@ -39,7 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # My App
     'todo.apps.TodoConfig',
+    'book.apps.BookConfig',
+
+    # Django REST Framework
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
