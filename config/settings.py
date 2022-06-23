@@ -45,8 +45,12 @@ INSTALLED_APPS = [
     'book.apps.BookConfig',
     'board.apps.BoardConfig',
 
+    # common
+    'common.apps.CommonConfig',
+
     # Django REST Framework
     'rest_framework',
+    'rest_framework.authtoken',  # 기본 토큰 인증 방식 사용
 ]
 
 MIDDLEWARE = [
@@ -103,6 +107,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Authentication - Token
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 
 # Internationalization
