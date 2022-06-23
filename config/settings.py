@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # My App
     'todo.apps.TodoConfig',
     'book.apps.BookConfig',
+    'board.apps.BoardConfig',
 
     # Django REST Framework
     'rest_framework',
