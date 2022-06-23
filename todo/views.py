@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
+from rest_framework import status
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from todo.forms import TodoForm
 from todo.models import Todo
+from todo.serializers import TodoSimpleSerializer, TodoDetailSerializer, TodoCreateSerializer
 
 
 def todo_list(request):
@@ -67,3 +72,64 @@ def todo_done(request, pk):
     todo.complete = True
     todo.save()
     return redirect('todo_list')
+
+
+# APIView -------------------------------------------------------------------------------------------------------------
+class TodosAPIView(APIView):
+    def get(self, request):
+        """
+        To Do 전체 조회
+        """
+        todos = Todo.objects.filter()
+        serializer = TodoSimpleSerializer(todos, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        """
+        To do 생성
+        """
+        serializer = TodoCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TodoAPIView(APIView):
+    def get(self, request, pk):
+        """
+        To do 상세 조회
+        """
+        todo = get_object_or_404(Todo, id=pk)  # rest_framework.generics의 get_object_or_404
+        serializer = TodoDetailSerializer(todo)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        todo = get_object_or_404(Todo, id=pk)
+        serializer = TodoCreateSerializer(todo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DoneTodosAPIView(APIView):
+    def get(self, request):
+        """
+        To Do 완료 목록 조회
+        """
+        dones = Todo.objects.filter(complete=True)
+        serializer = TodoSimpleSerializer(dones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class DoneTodoAPIView(APIView):
+    def get(self, request, pk):
+        """
+        To Do 완료 처리
+        """
+        done = get_object_or_404(Todo, id=pk)
+        done.complete = True
+        done.save()
+        serializer = TodoDetailSerializer(done)
+        return Response(serializer.data, status=status.HTTP_200_OK)
