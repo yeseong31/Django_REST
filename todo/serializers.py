@@ -5,7 +5,7 @@ from todo.models import Todo
 
 class TodoSimpleSerializer(serializers.ModelSerializer):
     """
-    전체 조회
+    전체 목록 조회 및 완료 목록 조회
     """
     class Meta:
         model = Todo
@@ -14,7 +14,7 @@ class TodoSimpleSerializer(serializers.ModelSerializer):
 
 class TodoDetailSerializer(serializers.ModelSerializer):
     """
-    상세 조회
+    상세 조회 및 완료 처리
     """
     class Meta:
         model = Todo
