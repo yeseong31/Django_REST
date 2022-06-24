@@ -8,8 +8,14 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)  # 일대일
     nickname = models.CharField(max_length=128)
     position = models.CharField(max_length=128)
-    subject = models.CharField(max_length=128)
+    subjects = models.CharField(max_length=128)
     image = models.ImageField(upload_to='profile/', default='default.png')
+
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        db_table = 'profile'
 
 
 @receiver(post_save, sender=User)

@@ -7,6 +7,8 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
+from common.models import Profile
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     """회원가입 Serializer"""
@@ -65,3 +67,10 @@ class SigninSerializer(serializers.Serializer):
         raise serializers.ValidationError(
             {'error': 'Unable to sign in with provided credentials.'}
         )
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """프로필 Serializer"""
+    class Meta:
+        model = Profile
+        fields = ('nickname', 'position', 'subjects', 'image')

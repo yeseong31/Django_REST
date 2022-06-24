@@ -10,3 +10,9 @@ class Book(models.Model):
     price = models.IntegerField()  # 가격
     published_date = models.DateField()  # 출판일
     description = models.TextField()  # 도서 설명
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'book'
