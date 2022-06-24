@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 
 from common.models import Profile
@@ -9,6 +10,10 @@ from posts.serializers import PostSerializer, PostCreateSerializer
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     permission_classes = [CustomReadOnly]
+
+    # 필터링 적용
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['author', 'likes']
 
     def get_serializer_class(self):
         if self.action == 'list' or 'retrieve':
