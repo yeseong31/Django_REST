@@ -111,11 +111,6 @@ DATABASES = {
         'PASSWORD': os.environ['db_password'],
         'HOST': os.environ['db_host'],
         'PORT': '3306',  # Port 번호
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-            'use_unicode': True,
-        },
     }
 }
 
