@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT Django_REST:app
+web: gunicorn --bind 0.0.0.0:$PORT ys-rest:app
