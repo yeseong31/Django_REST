@@ -6,12 +6,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from common.models import Profile
-from posts.models import Post
+from posts.models import Post, Comment
 from posts.permissions import CustomReadOnly
-from posts.serializers import PostSerializer, PostCreateSerializer
+from posts.serializers import PostSerializer, PostCreateSerializer, CommentSerializer, CommentCreateSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
+    """게시글 등록/조회/수정/삭제"""
     queryset = Post.objects.all()
     permission_classes = [CustomReadOnly]
 
@@ -45,3 +46,18 @@ def like_post(request, pk):
     else:
         post.likes.add(request.user)
     return Response({'status': 'ok'})
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """댓글 등록/조회/수정/삭제"""
+    queryset = Comment.objects.all()
+    permission_classes = [CustomReadOnly]
+
+    def get_serializer_class(self):
+        if self.action == 'list' or 'retrieve':
+            return CommentSerializer
+        return CommentCreateSerializer
+
+    def perform_create(self, serializer):
+        profile = Profile.objects.get(user=self.request.user)
+        serializer.save(author=self.request.user, profile=profile)
