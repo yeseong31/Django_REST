@@ -17,9 +17,10 @@ class SigninView(generics.GenericAPIView):
     serializer_class = SigninSerializer
 
     def post(self, request):
+        # Serializer 통과 후 얻어온 토큰을 그대로 응답해 주는 방식
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        token = serializer.validated_data  # validate()의 return 값
+        token = serializer.validated_data
         return Response({'token': token.key}, status=status.HTTP_200_OK)
 
 

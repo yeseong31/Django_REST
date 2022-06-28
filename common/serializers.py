@@ -34,26 +34,23 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """비밀번호 일치 여부 확인"""
         if data['password'] != data['password2']:
-            raise serializers.ValidationError(
-                {'password': "Password fields didn't match."}
-            )
+            raise serializers.ValidationError({'password': "Password fields didn't match."})
         return data
 
     def create(self, validated_data):
         """CREATE 요청에 대해 create() 메서드를 overwrite 및 User/Token 생성"""
         user = User.objects.create_user(
             username=validated_data['username'],
-            email=validated_data['email'],
+            email=validated_data['email']
         )
         user.set_password(validated_data['password'])
         user.save()
-        token = Token.objects.create(user=user)
+        Token.objects.create(user=user)
         return user
 
 
 class SigninSerializer(serializers.Serializer):
     """로그인 Serializer"""
-
     # 비밀번호에 write_only 옵션
     # 클라이언트->서버 역직렬화 가능, 서버->클라이언트 직렬화 불가능
     username = serializers.CharField(required=True)
@@ -62,11 +59,8 @@ class SigninSerializer(serializers.Serializer):
     def validate(self, data):
         user = authenticate(**data)
         if user:
-            token = Token.objects.get(user=user)
-            return token  # 로그인 성공 시 토큰 반환
-        raise serializers.ValidationError(
-            {'error': 'Unable to sign in with provided credentials.'}
-        )
+            return Token.objects.get(user=user)  # 로그인 성공 시 토큰 반환
+        raise serializers.ValidationError({'error': 'Unable to sign in with provided credentials.'})
 
 
 class ProfileSerializer(serializers.ModelSerializer):
