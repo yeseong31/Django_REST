@@ -12,7 +12,7 @@ class Post(models.Model):
     category = models.CharField(max_length=128)
     body = models.TextField()
     image = models.ImageField(upload_to='post/', default='default.png')
-    likes = models.ManyToManyField(User)
+    likes = models.ManyToManyField(User, related_name='like_posts', blank=True)
     published_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
