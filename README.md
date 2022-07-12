@@ -5,4 +5,3 @@
 - Section 3. [Django REST Framework](https://incongruous-net-2ed.notion.site/3-Django-REST-Framework-306158d577634ab495bfa95f1c408951)
 - Section 4. [REST 게시판](https://incongruous-net-2ed.notion.site/4-REST-57a396eb4416467cb9cfec8bf66bbbcf)
 - Section 5. [부록](https://incongruous-net-2ed.notion.site/5-8800fb067e204df2b785aa5e51ffd0d3)
-- Section S. [점프 투 장고](https://incongruous-net-2ed.notion.site/82679ba406114120a18d7a8e9c0b2195)
